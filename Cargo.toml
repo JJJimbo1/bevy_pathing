@@ -1,0 +1,16 @@
+[package]
+name = "bevy_pathing"
+version = "0.0.1"
+authors = ["JJJimbo1"]
+edition = "2021"
+
+[dependencies]
+bevy = { version = "0.10.1", default-features = false }
+serde = { version = "1.0.136", optional = true }
+crossbeam-channel = "0.5.8"
+rand = "0.8.5"
+hashbrown = "0.13.1"
+pathing = { git = "https://github.com/JJJimbo1/pathing.git" }
+
+[features]
+serde = ["dep:serde", "pathing/serde"]
