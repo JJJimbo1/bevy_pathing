@@ -32,7 +32,8 @@ impl<PG: Resource + Clone + PathingGridMap, PP: Resource + PathingGridSpace> Plu
     for PathFindingPlugin<PG, PP>
 {
     fn build(&self, app: &mut App) {
-        app.add_system(setup_pathfinder::<PG, PP>)
+        app
+            .add_startup_system(setup_pathfinder::<PG, PP>)
             .add_system(
                 grid_space_update_system::<PG, PP>
                     .in_set(PathFindingSystems::GridSpaceUpdateSystem)
