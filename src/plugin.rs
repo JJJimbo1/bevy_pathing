@@ -33,17 +33,15 @@ impl<PG: Resource + Clone + PathingGridMap, PP: Resource + PathingGridSpace> Plu
 {
     fn build(&self, app: &mut App) {
         app
-            .add_startup_system(setup_pathfinder::<PG, PP>)
-            .add_system(
-                grid_space_update_system::<PG, PP>
+            .add_systems(Startup, setup_pathfinder::<PG, PP>)
+            .add_systems(Update,
+                (grid_space_update_system::<PG, PP>
                     .in_set(PathFindingSystems::GridSpaceUpdateSystem)
                     .run_if(resources_exist::<PG, PP /*PS*/>),
-            )
-            .add_system(
                 path_finding_system
                     .in_set(PathFindingSystems::PathFindingSystem)
                     .after(PathFindingSystems::GridSpaceUpdateSystem)
-                    .run_if(resources_exist::<PG, PP /*PS*/>),
+                    .run_if(resources_exist::<PG, PP /*PS*/>))
             );
     }
 }
