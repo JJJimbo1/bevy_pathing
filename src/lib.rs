@@ -4,13 +4,13 @@ mod systems;
 mod traits;
 
 pub use components::*;
-pub use pathing::*;
 pub use plugin::*;
 pub use systems::*;
 pub use traits::*;
 
 use bevy::prelude::*;
 use crossbeam_channel::{Receiver, Sender};
+pub use pathing::*;
 
 #[derive(Resource, Deref)]
 pub struct PFStreamInput(Sender<(Entity, Vec2, Vec2)>);
