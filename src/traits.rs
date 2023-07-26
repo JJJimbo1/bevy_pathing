@@ -1,8 +1,8 @@
 use crate::GridSpace;
-use pathing::{GridCell, GridNode};
+use pathing::{GridNode, GridPos};
 
 pub trait PathingGridMap {
-    fn path_find(&self, start: GridCell, end: GridCell) -> Option<Vec<GridNode>>;
+    fn path_find(&self, start: GridPos, end: GridPos) -> Option<Vec<GridNode>>;
     fn size(&self) -> (usize, usize) {
         (usize::MAX, usize::MAX)
     }

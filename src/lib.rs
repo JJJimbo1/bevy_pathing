@@ -11,7 +11,7 @@ pub use traits::*;
 
 use bevy::prelude::*;
 use crossbeam_channel::{Receiver, Sender};
-use pathing::{d2::D2Map, ds2::DS2Map};
+use pathing::DS2Map;
 
 #[derive(Resource, Deref)]
 pub struct PFStreamInput(Sender<(Entity, Vec2, Vec2)>);
@@ -19,22 +19,6 @@ pub struct PFStreamInput(Sender<(Entity, Vec2, Vec2)>);
 #[derive(Resource, Deref)]
 pub struct PFStreamOutput(Receiver<(Entity, Vec<Vec2>)>);
 
-#[derive(Debug, Clone)]
-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-#[derive(Resource)]
-pub struct OGrid(pub D2Map);
-
-impl PathingGridMap for OGrid {
-    fn path_find(&self, start: GridCell, end: GridCell) -> Option<Vec<GridNode>> {
-        self.0.find_path(start, end)
-    }
-    fn size(&self) -> (usize, usize) {
-        (self.0.grid().size_x(), self.0.grid().size_y())
-    }
-    fn even(&self) -> (usize, usize) {
-        (self.0.grid().size_x() / 2, self.0.grid().size_y() / 2)
-    }
-}
 
 #[derive(Debug, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
@@ -42,7 +26,7 @@ impl PathingGridMap for OGrid {
 pub struct SGrid(pub DS2Map);
 
 impl PathingGridMap for SGrid {
-    fn path_find(&self, start: GridCell, end: GridCell) -> Option<Vec<GridNode>> {
+    fn path_find(&self, start: GridPos, end: GridPos) -> Option<Vec<GridNode>> {
         self.0.find_path(start.into(), end.into())
     }
     fn even(&self) -> (usize, usize) {

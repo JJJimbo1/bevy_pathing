@@ -10,7 +10,7 @@ pub enum PathFindingSystems {
 
 #[derive(Debug, Clone, Copy)]
 pub struct PathFindingPlugin<
-    PG: Resource + PathingGridMap = OGrid,
+    PG: Resource + PathingGridMap = SGrid,
     PP: Resource + PathingGridSpace = GridSpace,
 > {
     pg: PhantomData<PG>,
