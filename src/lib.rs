@@ -11,7 +11,6 @@ pub use traits::*;
 
 use bevy::prelude::*;
 use crossbeam_channel::{Receiver, Sender};
-use pathing::DS2Map;
 
 #[derive(Resource, Deref)]
 pub struct PFStreamInput(Sender<(Entity, Vec2, Vec2)>);
