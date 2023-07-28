@@ -1,3 +1,5 @@
+use std::path;
+
 use bevy::prelude::*;
 
 #[derive(Debug, Default, Clone, Component)]
@@ -15,6 +17,15 @@ impl PathFinder {
         match self {
             PathFinder::Queued(start, end) | PathFinder::ReQueue(_, start, end) => { Some((*start, *end)) },
             _ => { None }
+        }
+    }
+
+    pub fn set_trip(&mut self, (start, end): (Vec2, Vec2)) {
+        match self {
+            PathFinder::Idle => { *self = PathFinder::Queued(start, end); },
+            PathFinder::Queued(_, _) => { *self = PathFinder::Queued(start, end); },
+            PathFinder::Ready(path) => { *self = PathFinder::ReQueue(path.clone(), start, end); },
+            PathFinder::ReQueue(path, _, _) => { *self = PathFinder::ReQueue(path.clone(), start, end); },
         }
     }
 
