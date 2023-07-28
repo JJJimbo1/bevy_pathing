@@ -1,7 +1,6 @@
 use crate::{PFStreamInput, PFStreamOutput};
 use bevy::prelude::*;
 use crossbeam_channel::unbounded;
-use pathing::GridPos;
 
 use crate::{PathFinder, PathingGridMap, PathingGridSpace};
 
@@ -21,12 +20,12 @@ pub fn setup_pathfinder<PG: Resource + Clone + PathingGridMap, PP: Resource + Pa
             let start_index = space.position_to_index(start);
             let end_index = space.position_to_index(end);
             if start_index == end_index {
+                println!("start index and end index are the same, going nowhere:{:?}, {:?}", start_index, end_index);
                 let _ = sender.try_send((entity, Vec::new()));
             }
-            let start_cell = GridPos::from(start_index);
-            let end_cell = GridPos::from(end_index);
+            println!("start cell: {:?}, end cell: {:?}", start_index, end_index);
             let path = map
-                .path_find(start_cell, end_cell)
+                .path_find(start_index, end_index)
                 .map(|mut nodes| {
                     nodes.remove(0);
                     nodes
