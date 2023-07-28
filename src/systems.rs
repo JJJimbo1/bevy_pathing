@@ -34,6 +34,7 @@ pub fn setup_pathfinder<PG: Resource + Clone + PathingGridMap, PP: Resource + Pa
                         .collect()
                 })
                 .unwrap_or(Vec::default());
+            println!("{:?}", path);
             let _ = sender.try_send((entity, path));
         }
     });
