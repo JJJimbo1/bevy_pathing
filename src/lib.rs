@@ -29,7 +29,13 @@ pub struct SGrid(pub DS2Map);
 
 impl PathingGridMap for SGrid {
     fn path_find(&self, start: GridPos, end: GridPos) -> Option<Vec<GridNode>> {
-        self.0.find_path(start.into(), end.into())
+        let path = self.0.find_path(start.into(), end.into());
+        if let Some(path) = path.clone() {
+            pathing::display_with_path(&self.0, path);
+        }
+        path
+
+
     }
     fn even(&self) -> (usize, usize) {
         (1, 1)

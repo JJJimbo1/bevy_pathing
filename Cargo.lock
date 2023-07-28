@@ -817,7 +817,7 @@ dependencies = [
 [[package]]
 name = "pathing"
 version = "0.0.1"
-source = "git+https://github.com/JJJimbo1/pathing.git#112aed645d7289b299ab5c08e584494d05eff8f9"
+source = "git+https://github.com/JJJimbo1/pathing.git#6b457a44b758f587c5448ee68826c055ab59d000"
 dependencies = [
  "array-macro",
  "fxhash",
@@ -1151,7 +1151,7 @@ dependencies = [
 [[package]]
 name = "valley_map"
 version = "0.0.1"
-source = "git+https://github.com/JJJimbo1/vmap.git#ac06242cdb1319f54cb33edf5fad9a566ce849f8"
+source = "git+https://github.com/JJJimbo1/vmap.git#6a5f71d92400033e4a876acf0db3e88444ab1df9"
 dependencies = [
  "serde",
 ]
