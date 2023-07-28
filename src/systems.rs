@@ -19,7 +19,6 @@ pub fn setup<PG: Resource + Clone + PathingGridMap, PP: Resource + PathingGridSp
         // let mut space = space;
         loop {
             for (pg, pp) in resets.try_iter() {
-                println!("Changing grid");
                 map = pg;
                 space = *pp.grid_space();
             }
@@ -27,10 +26,7 @@ pub fn setup<PG: Resource + Clone + PathingGridMap, PP: Resource + PathingGridSp
                 let start_index = space.position_to_index(start);
                 let end_index = space.position_to_index(end);
                 if start_index == end_index {
-                    println!("Start and End are the same, not pathing; Start: {:?}, End: {:?}", start_index, end_index);
                     let _ = sender.try_send((entity, Vec::new()));
-                } else {
-                    println!("Pathfinding between Start: {:?}, End: {:?}", start_index, end_index);
                 }
                 let path = map
                     .path_find(start_index, end_index)
