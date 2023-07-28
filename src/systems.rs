@@ -68,8 +68,8 @@ pub fn path_finding_system(
         Query<&mut PathFinder>,
     )>,
 ) {
-    path_finders.p0().for_each(|(entity, path_finder)| {
-        if let PathFinder::Queued(start, end) = *path_finder {
+    path_finders.p0().for_each(|(entity, pathfinder)| {
+        if let Some((start, end)) = pathfinder.trip() {
             let _ = input.try_send((entity, start, end));
         }
     });
