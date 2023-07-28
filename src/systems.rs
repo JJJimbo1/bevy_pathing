@@ -27,6 +27,7 @@ pub fn setup<PG: Resource + Clone + PathingGridMap, PP: Resource + PathingGridSp
                 let start_index = space.position_to_index(start);
                 let end_index = space.position_to_index(end);
                 if start_index == end_index {
+                    println!("Start and End are the same, not pathing; Start: {:?}, End: {:?}", start_index, end_index);
                     let _ = sender.try_send((entity, Vec::new()));
                 }
                 let path = map
