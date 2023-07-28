@@ -37,54 +37,45 @@ impl PathingGridMap for SGrid {
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Resource)]
 pub struct GridSpace {
-    pub width: usize,
-    pub length: usize,
-    pub even_offset: Vec2,
+    // pub even_offset: Vec2,
     pub offset: Vec2,
     pub scale: Vec2,
 }
 
 impl GridSpace {
-    pub fn new(width: usize, length: usize) -> Self {
+    pub fn new(
+        // width: usize, length: usize
+    ) -> Self {
         Self {
-            width,
-            length,
-            even_offset: Vec2::new(
-                if width % 2 == 0 { 0.5 } else { 0.0 },
-                if length % 2 == 0 { 0.5 } else { 0.0 },
-            ),
+            // even_offset: Vec2::new(
+            //     if width % 2 == 0 { 0.5 } else { 0.0 },
+            //     if length % 2 == 0 { 0.5 } else { 0.0 },
+            // ),
             ..Default::default()
         }
     }
 
     pub fn position_to_index(&self, position: Vec2) -> (isize, isize) {
         (
-            (((position.x - self.offset.x - self.even_offset.x) / self.scale.x).round()).clamp(
-                ((self.width as isize) / -2) as f32,
-                ((self.width as isize - 1) / 2) as f32,
-            ) as isize,
-            (((position.y - self.offset.y - self.even_offset.y) / self.scale.y).round()).clamp(
-                ((self.length as isize) / -2) as f32,
-                ((self.length as isize - 1) / 2) as f32,
-            ) as isize,
+            (((position.x - self.offset.x) / self.scale.x).round()) as isize,
+            (((position.y - self.offset.y) / self.scale.y).round()) as isize,
         )
     }
 
     pub fn index_to_position(&self, index: (isize, isize)) -> Vec2 {
         Vec2::new(
             index
-                .0
-                .clamp(self.width as isize / -2, (self.width as isize - 1) / 2) as f32
+                .0 as f32
+                // .clamp(self.width as isize / -2, (self.width as isize - 1) / 2) as f32
                 * self.scale.x
-                + self.offset.x
-                + self.even_offset.x,
+                + self.offset.x,
+                // + self.even_offset.x,
             index
-                .1
-                .clamp(self.length as isize / -2, (self.length as isize - 1) / 2)
-                as f32
+                .1 as f32
+                // .clamp(self.length as isize / -2, (self.length as isize - 1) / 2) as f32
                 * self.scale.y
                 + self.offset.y
-                + self.even_offset.y,
+                // + self.even_offset.y,
         )
     }
 }
@@ -92,10 +83,10 @@ impl GridSpace {
 impl Default for GridSpace {
     fn default() -> Self {
         Self {
-            width: 0,
-            length: 0,
+            // width: 0,
+            // length: 0,
             offset: Vec2::default(),
-            even_offset: Vec2::default(),
+            // even_offset: Vec2::default(),
             scale: Vec2::new(1.0, 1.0),
         }
     }

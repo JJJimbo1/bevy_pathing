@@ -46,12 +46,12 @@ pub fn grid_space_update_system<PG: Resource + PathingGridMap, PP: Resource + Pa
     mut space: ResMut<PP>,
 ) {
     if grid.is_changed() {
-        let (x, z) = grid.even();
-        space.grid_space_mut().width = x;
-        space.grid_space_mut().length = z;
-        let x_offset = (x as f32 / 2.0 - 0.5).abs();
-        let z_offset = (z as f32 / 2.0 - 0.5).abs();
-        space.grid_space_mut().even_offset = Vec2::new(x_offset, z_offset);
+        // let (x, z) = grid.even();
+        // space.grid_space_mut().width = x;
+        // space.grid_space_mut().length = z;
+        // let x_offset = (x as f32 / 2.0 - 0.5).abs();
+        // let z_offset = (z as f32 / 2.0 - 0.5).abs();
+        // space.grid_space_mut().even_offset = Vec2::new(x_offset, z_offset);
     }
 }
 
