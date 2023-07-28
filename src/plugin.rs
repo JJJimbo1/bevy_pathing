@@ -28,14 +28,14 @@ impl<PG: Resource + PathingGridMap, PP: Resource + PathingGridSpace> Default
     }
 }
 
-impl<PG: Resource + Clone + PathingGridMap, PP: Resource + PathingGridSpace> Plugin
+impl<PG: Clone + Resource + PathingGridMap, PP: Clone + Resource + PathingGridSpace> Plugin
     for PathFindingPlugin<PG, PP>
 {
     fn build(&self, app: &mut App) {
         app
-            .add_systems(Startup, setup_pathfinder::<PG, PP>)
+            .add_systems(Startup, setup::<PG, PP>)
             .add_systems(Update,
-                (grid_space_update_system::<PG, PP>
+                (grid_update::<PG, PP>
                     .in_set(PathFindingSystems::GridSpaceUpdateSystem)
                     .run_if(resources_exist::<PG, PP /*PS*/>),
                 path_finding_system

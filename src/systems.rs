@@ -1,58 +1,62 @@
-use crate::{PFStreamInput, PFStreamOutput};
+use crate::{PFStreamInput, PFStreamOutput, PFStreamReset};
 use bevy::prelude::*;
-use crossbeam_channel::unbounded;
+use crossbeam_channel::{unbounded, bounded};
 
 use crate::{PathFinder, PathingGridMap, PathingGridSpace};
 
-//TODO: Allow the grid to change.
-//TODO: Prevent encapsulation.
-pub fn setup_pathfinder<PG: Resource + Clone + PathingGridMap, PP: Resource + PathingGridSpace>(
+pub fn setup<PG: Resource + Clone + PathingGridMap, PP: Resource + PathingGridSpace>(
     map: Res<PG>,
     space: Res<PP>,
     mut commands: Commands,
 ) {
     let (input, reader) = unbounded::<(Entity, Vec2, Vec2)>();
     let (sender, output) = unbounded::<(Entity, Vec<Vec2>)>();
+    let (reset, resets) = bounded::<(PG, PP)>(1);
     let map = (*map).clone();
     let space = space.grid_space().clone();
-    std::thread::spawn(move || loop {
-        for (entity, start, end) in reader.iter() {
-            let start_index = space.position_to_index(start);
-            let end_index = space.position_to_index(end);
-            if start_index == end_index {
-                println!("start index and end index are the same, going nowhere:{:?}, {:?}", start_index, end_index);
-                let _ = sender.try_send((entity, Vec::new()));
+    std::thread::spawn(move || {
+        let mut map = map;
+        let mut space = space;
+        loop {
+            for (pg, pp) in resets.iter() {
+                map = pg;
+                space = *pp.grid_space();
             }
-            println!("start cell: {:?}, end cell: {:?}", start_index, end_index);
-            let path = map
-                .path_find(start_index, end_index)
-                .map(|mut nodes| {
-                    nodes.remove(0);
-                    nodes
-                        .iter()
-                        .map(|n| space.index_to_position((n.x, n.z)))
-                        .collect()
-                })
-                .unwrap_or(Vec::default());
-            println!("{:?}", path);
-            let _ = sender.try_send((entity, path));
+            for (entity, start, end) in reader.iter() {
+                let start_index = space.position_to_index(start);
+                let end_index = space.position_to_index(end);
+                if start_index == end_index {
+                    let _ = sender.try_send((entity, Vec::new()));
+                }
+                let path = map
+                    .path_find(start_index, end_index)
+                    .map(|mut nodes| {
+                        nodes.remove(0);
+                        nodes
+                            .iter()
+                            .map(|n| space.index_to_position((n.x, n.z)))
+                            .collect()
+                    })
+                    .unwrap_or(Vec::default());
+                let _ = sender.try_send((entity, path));
+            }
         }
     });
     commands.insert_resource(PFStreamInput(input));
     commands.insert_resource(PFStreamOutput(output));
+    commands.insert_resource(PFStreamReset(reset));
 }
 
-pub fn grid_space_update_system<PG: Resource + PathingGridMap, PP: Resource + PathingGridSpace>(
-    grid: ResMut<PG>,
-    mut space: ResMut<PP>,
+pub fn grid_update<
+    PG: Clone + Resource + PathingGridMap,
+    PP: Clone + Resource + PathingGridSpace
+> (
+    grid: Res<PG>,
+    space: Res<PP>,
+    reset: Res<PFStreamReset<PG, PP>>,
 ) {
-    if grid.is_changed() {
-        // let (x, z) = grid.even();
-        // space.grid_space_mut().width = x;
-        // space.grid_space_mut().length = z;
-        // let x_offset = (x as f32 / 2.0 - 0.5).abs();
-        // let z_offset = (z as f32 / 2.0 - 0.5).abs();
-        // space.grid_space_mut().even_offset = Vec2::new(x_offset, z_offset);
+    if grid.is_changed() || space.is_changed() {
+        let _ = reset.try_send((grid.clone(), space.clone()));
     }
 }
 

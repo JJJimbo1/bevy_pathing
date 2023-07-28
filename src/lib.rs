@@ -18,6 +18,9 @@ pub struct PFStreamInput(Sender<(Entity, Vec2, Vec2)>);
 #[derive(Resource, Deref)]
 pub struct PFStreamOutput(Receiver<(Entity, Vec<Vec2>)>);
 
+#[derive(Resource, Deref)]
+pub struct PFStreamReset<PG: Resource + Clone + PathingGridMap, PP: Resource + PathingGridSpace>(Sender<(PG, PP)>);
+
 
 #[derive(Debug, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
