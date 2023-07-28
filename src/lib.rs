@@ -32,6 +32,9 @@ impl PathingGridMap for SGrid {
         let path = self.0.find_path(start.into(), end.into());
         if let Some(path) = path.clone() {
             pathing::display_with_path(&self.0, path);
+        } else {
+            println!("What");
+            pathing::display_with_path(&self.0, vec![]);
         }
         path
 
