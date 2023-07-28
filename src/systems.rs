@@ -12,13 +12,14 @@ pub fn setup<PG: Resource + Clone + PathingGridMap, PP: Resource + PathingGridSp
     let (input, reader) = unbounded::<(Entity, Vec2, Vec2)>();
     let (sender, output) = unbounded::<(Entity, Vec<Vec2>)>();
     let (reset, resets) = bounded::<(PG, PP)>(1);
-    let map = (*map).clone();
-    let space = space.grid_space().clone();
+    let mut map = (*map).clone();
+    let mut space = space.grid_space().clone();
     std::thread::spawn(move || {
-        let mut map = map;
-        let mut space = space;
+        // let mut map = map;
+        // let mut space = space;
         loop {
             for (pg, pp) in resets.iter() {
+                println!("Changing grid");
                 map = pg;
                 space = *pp.grid_space();
             }
