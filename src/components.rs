@@ -33,4 +33,11 @@ impl PathFinder {
             _ => { None }
         }
     }
+
+    pub fn path_mut(&mut self) -> Option<&mut Vec<Vec2>> {
+        match self {
+            PathFinder::Ready(path) | PathFinder::ReQueue(path, _, _) => { Some(path) },
+            _ => { None }
+        }
+    }
 }
