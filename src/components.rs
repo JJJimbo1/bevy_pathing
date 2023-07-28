@@ -1,5 +1,3 @@
-use std::path;
-
 use bevy::prelude::*;
 
 #[derive(Debug, Default, Clone, Component)]
