@@ -74,11 +74,6 @@ pub fn path_finding_system(
         }
     });
 
-    //TODO: When Bevy impls IterMut for mutables, use this instead.
-    // let (entities, paths): (Vec<Entity>, Vec<Vec<Vec2>>) = output.try_iter().unzip();
-    // path_finders.iter_many_mut(entities).zip(paths).for_each(|((entity, pf), path)| {
-    // });
-
     output.try_iter().for_each(|(entity, path)| {
         let mut p1 = path_finders.p1();
         let Ok(mut path_finder) = p1.get_mut(entity) else { return; };
