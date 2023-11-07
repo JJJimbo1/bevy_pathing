@@ -768,7 +768,7 @@ dependencies = [
 [[package]]
 name = "pathing"
 version = "0.0.1"
-source = "git+https://github.com/JJJimbo1/pathing.git#b65450379466991242d26733a9c9f7b03a3edc9a"
+source = "git+https://github.com/JJJimbo1/pathing.git#cfdf6c0fe2c89d3528c5227229407c95307f6ce5"
 dependencies = [
  "fxhash",
  "pathfinding",
