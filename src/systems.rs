@@ -34,7 +34,7 @@ pub fn setup<PG: Resource + Clone + PathingGridMap, PP: Resource + PathingGridSp
                         nodes.remove(0);
                         nodes
                             .iter()
-                            .map(|n| space.index_to_position((n.x, n.z)))
+                            .map(|n| space.index_to_position((n.0, n.1)))
                             .collect()
                     })
                     .unwrap_or(Vec::default());

@@ -28,7 +28,7 @@ pub struct PFStreamReset<PG: Resource + Clone + PathingGridMap, PP: Resource + P
 pub struct SGrid(pub DS2Map);
 
 impl PathingGridMap for SGrid {
-    fn path_find(&self, start: GridPos, end: GridPos) -> Option<Vec<GridNode>> {
+    fn path_find(&self, start: GridPos, end: GridPos) -> Option<Vec<GridPos>> {
         self.0.find_path(start.into(), end.into())
     }
     fn even(&self) -> (usize, usize) {
