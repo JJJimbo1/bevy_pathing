@@ -6,7 +6,7 @@ edition = "2021"
 
 [dependencies]
 bevy = { version = "0.12.0", default-features = false }
-serde = { version = "1.0.136", optional = true }
+serde = { version = "1.0.191", optional = true }
 crossbeam-channel = "0.5.8"
 pathing = { git = "https://github.com/JJJimbo1/pathing.git" }
 
