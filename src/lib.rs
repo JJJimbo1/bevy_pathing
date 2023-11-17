@@ -23,7 +23,8 @@ pub struct PFStreamReset<PG: Resource + Clone + PathingGridMap, PP: Resource + P
 
 
 #[derive(Debug, Clone)]
-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+// #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+#[derive(serde::Serialize, serde::Deserialize)]
 #[derive(Resource)]
 pub struct SGrid(pub DS2Map);
 
