@@ -38,7 +38,7 @@ impl PathingGridMap for SGrid {
 }
 
 #[derive(Debug, Clone, Copy)]
-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+#[derive(serde::Serialize, serde::Deserialize)]
 #[derive(Resource)]
 pub struct GridSpace {
     // pub even_offset: Vec2,
